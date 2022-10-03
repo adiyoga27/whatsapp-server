@@ -1,4 +1,6 @@
 import { Boom } from "@hapi/boom";
+import { infoLog, emergecyLog } from './telegram'
+
 import makeWASocket, {
   AnyMessageContent,
   delay,
@@ -88,6 +90,7 @@ const startSock = async () => {
         if (connection === "close") {
           const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
           console.log("\x1b[33m%s\x1b[0m", 'connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
+          infoLog(lastDisconnect?.error);
           // reconnect if not logged out
           if (shouldReconnect) {
             startSock();
