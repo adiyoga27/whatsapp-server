@@ -12,6 +12,8 @@ import makeWASocket, {
 import MAIN_LOGGER from "../utils/logger";
 import { io } from "../index";
 import * as pm2 from "./pm";
+import * as fs from "fs";
+
 //import express
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
@@ -92,10 +94,17 @@ const startSock = async () => {
             pm2.restartApp;
           } else {
             console.log("Connection closed. You are logged out.");
+            if (fs.existsSync("./keystore")) {
+              fs.rmSync("./keystore", {
+                recursive: true,
+                force: true,
+              });
+
+            }
           }
         } else if (connection === "open") {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
-
+          io.emit("user", user);
           console.log("opened connection");
         }
         if (qr) {
