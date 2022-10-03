@@ -74,7 +74,6 @@ const startSock = async () => {
   });
 
   store?.bind(sock.ev);
-  const user = await sock.user;
 
   // the process function lets you process all events that just occurred
   // efficiently in a batch
@@ -99,7 +98,7 @@ const startSock = async () => {
           }
 
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.restartRequired) {
-            startSock();
+            pm2.restartApp();
           }
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
             if (fs.existsSync("./keystore")) {
@@ -117,7 +116,11 @@ const startSock = async () => {
 
 
 
+
+
         } else if (connection === "open") {
+          const user = await sock.user;
+
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
           console.log("opened connection");
