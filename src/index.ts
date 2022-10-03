@@ -77,7 +77,9 @@ io.on("connection", function (socket: any) {
   });
   socket.on("restart", async () => {
     console.log("\x1b[33m%s\x1b[0m", "Restart APP");
-    pm2.restartApp
+    console.log("\x1b[33m%s\x1b[0m", process.env.APP_NAME);
+
+    pm2.restartApp();
   });
 
 

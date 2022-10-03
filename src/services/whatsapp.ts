@@ -110,7 +110,7 @@ const startSock = async () => {
         if (isNewLogin) {
           const auth = await sock.user;
           io.emit("message", `Berhasil Scan QR Code dengan user ${auth?.name}`);
-          pm2.restartApp;
+          pm2.restartApp();
 
         }
 
