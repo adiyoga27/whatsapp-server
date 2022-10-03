@@ -99,7 +99,7 @@ const startSock = async () => {
           }
 
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.restartRequired) {
-            pm2.restartApp();
+            startSock();
           }
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
             if (fs.existsSync("./keystore")) {

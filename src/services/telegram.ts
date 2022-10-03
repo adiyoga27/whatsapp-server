@@ -14,6 +14,6 @@ export const emergecyLog = function (message: any) {
 
 export const infoLog = function (message: any) {
 
-    tg.sendMessage('======' + process.env.APP_NAME + " : " + process.env.APP_PORT + '======\n\n' + message + '\n', 'INFO')
+    tg.sendMessage('======' + process.env.APP_NAME + '======\n\n' + message + '\n', 'INFO')
 }
 
