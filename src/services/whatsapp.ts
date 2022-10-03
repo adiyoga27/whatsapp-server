@@ -97,21 +97,22 @@ const startSock = async () => {
             startSock();
           } else {
             console.log("Connection closed. You are logged out.");
+            if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
+              if (fs.existsSync("./keystore")) {
+                fs.rmSync("./keystore", {
+                  recursive: true,
+                  force: true,
+                });
+              }
+              pm2.restartApp();
+            } else {
+              pm2.restartApp();
+
+            }
+
           }
 
-          const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
-          if (statusCode === DisconnectReason.restartRequired || statusCode === DisconnectReason.connectionClosed) {
-            pm2.restartApp();
-          }
-          if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
-            if (fs.existsSync("./keystore")) {
-              fs.rmSync("./keystore", {
-                recursive: true,
-                force: true,
-              });
-            }
-            pm2.restartApp();
-          }
+
         } else if (connection === "open") {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
