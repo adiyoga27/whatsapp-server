@@ -1,4 +1,4 @@
-import * as pm2 from 'pm2';
+import pm2 from 'pm2';
 import { infoLog, emergecyLog } from './telegram'
 import * as dotenv from "dotenv";
 
