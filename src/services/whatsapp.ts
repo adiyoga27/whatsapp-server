@@ -19,6 +19,7 @@ import * as fs from "fs";
 //import express
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
+const utils = require('util');
 
 // init express
 
@@ -124,9 +125,10 @@ const startSock = async () => {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
           console.log("opened connection");
-          if (isNewLogin || !user?.name) {
+          if (isNewLogin || utils.isNull(user?.name)) {
             pm2.restartApp();
           }
+
         }
         if (qr) {
           //Check QR CODE
