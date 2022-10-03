@@ -75,6 +75,7 @@ const startSock = async () => {
   });
 
   store?.bind(sock.ev);
+  const user = await sock.user;
 
   // the process function lets you process all events that just occurred
   // efficiently in a batch
@@ -98,7 +99,8 @@ const startSock = async () => {
             console.log("Connection closed. You are logged out.");
           }
 
-          if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.restartRequired) {
+          const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
+          if (statusCode === DisconnectReason.restartRequired || statusCode === DisconnectReason.connectionClosed) {
             pm2.restartApp();
           }
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
@@ -110,24 +112,10 @@ const startSock = async () => {
             }
             pm2.restartApp();
           }
-          if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.connectionClosed) {
-            pm2.restartApp();
-          }
-
-
-
-
-
-
         } else if (connection === "open") {
-          const user = await sock.user;
-
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
           console.log("opened connection");
-          if (isNewLogin || utils.isNull(user?.name)) {
-            pm2.restartApp();
-          }
 
         }
         if (qr) {
@@ -138,9 +126,6 @@ const startSock = async () => {
             console.log("\x1b[33m%s\x1b[0m", qr);
           });
         }
-
-
-
         console.log("connection update", update);
       }
 
