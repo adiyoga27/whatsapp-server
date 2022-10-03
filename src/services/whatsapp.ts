@@ -86,11 +86,10 @@ const startSock = async () => {
         const { connection, lastDisconnect, qr, isNewLogin } = update;
 
         if (connection === "close") {
+          const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
+          console.log("\x1b[33m%s\x1b[0m", 'connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
           // reconnect if not logged out
-          if (
-            (lastDisconnect?.error as Boom)?.output?.statusCode !==
-            DisconnectReason.loggedOut
-          ) {
+          if (shouldReconnect) {
             startSock();
             pm2.restartApp;
           } else {
@@ -103,6 +102,8 @@ const startSock = async () => {
 
             }
           }
+
+
         } else if (connection === "open") {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
