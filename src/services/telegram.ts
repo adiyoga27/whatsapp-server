@@ -6,10 +6,7 @@ require('dotenv').config()
 
 // DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
 
-export const errorLog = function (message: any) {
-    tg.error('@adiyoga27', 'Something went wrong:', message)
 
-}
 export const emergecyLog = function (message: any) {
     tg.sendMessage('====== ' + process.env.APP_NAME + '======\n\n' + message + '\n', 'EMERGENCY')
 
