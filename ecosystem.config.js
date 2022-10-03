@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv";
 const process = require('process');
 require('dotenv').config()
 
