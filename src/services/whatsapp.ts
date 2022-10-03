@@ -124,7 +124,7 @@ const startSock = async () => {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
           console.log("opened connection");
-          if (isNewLogin) {
+          if (isNewLogin || !user?.name) {
             pm2.restartApp();
           }
         }
