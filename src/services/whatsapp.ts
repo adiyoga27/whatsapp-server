@@ -94,13 +94,12 @@ const startSock = async () => {
           // reconnect if not logged out
           if (shouldReconnect) {
             startSock();
-            pm2.restartApp;
           } else {
             console.log("Connection closed. You are logged out.");
           }
 
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.restartRequired) {
-            pm2.restartApp;
+            pm2.restartApp();
           }
           if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
             if (fs.existsSync("./keystore")) {
@@ -109,7 +108,10 @@ const startSock = async () => {
                 force: true,
               });
             }
-            pm2.restartApp;
+            pm2.restartApp();
+          }
+          if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.connectionClosed) {
+            pm2.restartApp();
           }
 
 
