@@ -6,7 +6,7 @@ import cors from "cors";
 import * as fs from "fs";
 import { whatsappSocket } from "./services/whatsapp";
 import * as dotenv from "dotenv";
-import { restartApp } from "./services/pm"
+import * as pm2 from "./services/pm"
 
 
 const qrcode = require("qrcode");
@@ -77,7 +77,7 @@ io.on("connection", function (socket: any) {
   });
   socket.on("restart", async () => {
     console.log("\x1b[33m%s\x1b[0m", "Restart APP");
-    restartApp
+    pm2.restartApp
   });
 
 

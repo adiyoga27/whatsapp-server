@@ -11,7 +11,7 @@ import makeWASocket, {
 } from "@adiwajshing/baileys";
 import MAIN_LOGGER from "../utils/logger";
 import { io } from "../index";
-import { restartApp } from "./pm";
+import * as pm2 from "./pm";
 //import express
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
@@ -89,7 +89,7 @@ const startSock = async () => {
             DisconnectReason.loggedOut
           ) {
             startSock();
-            restartApp;
+            pm2.restartApp;
           } else {
             console.log("Connection closed. You are logged out.");
           }
@@ -110,7 +110,8 @@ const startSock = async () => {
         if (isNewLogin) {
           const auth = await sock.user;
           io.emit("message", `Berhasil Scan QR Code dengan user ${auth?.name}`);
-          restartApp;
+          pm2.restartApp;
+
         }
 
         console.log("connection update", update);
