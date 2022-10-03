@@ -1,7 +1,5 @@
 var pm2 = require('pm2');
 import { infoLog, emergecyLog } from './telegram'
-import * as dotenv from "dotenv";
-
 const process = require('process');
 require('dotenv').config()
 
