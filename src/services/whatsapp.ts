@@ -84,6 +84,7 @@ const startSock = async () => {
       if (events["connection.update"]) {
         const update = events["connection.update"];
         const { connection, lastDisconnect, qr, isNewLogin } = update;
+
         if (connection === "close") {
           // reconnect if not logged out
           if (
@@ -106,6 +107,9 @@ const startSock = async () => {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
           console.log("opened connection");
+          if (isNewLogin) {
+            pm2.restartApp();
+          }
         }
         if (qr) {
           //Check QR CODE
@@ -116,12 +120,7 @@ const startSock = async () => {
           });
         }
 
-        if (isNewLogin) {
-          const auth = await sock.user;
-          io.emit("message", `Berhasil Scan QR Code dengan user ${auth?.name}`);
-          pm2.restartApp();
 
-        }
 
         console.log("connection update", update);
       }
