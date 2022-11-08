@@ -137,6 +137,37 @@ const startSock = async () => {
     }
   );
 
+  io.on("initial", async () => {
+    const user = await (await whatsappSocket).user;
+    io.emit("user", user);
+    io.emit("message", "Anda Telah Login");
+  });
+  io.on("check", async (arg: any) => {
+    const user = await (await whatsappSocket).user;
+    console.log("\x1b[33m%s\x1b[0m", "Check Status User");
+
+    io.emit("user", user);
+    console.log("\x1b[33m%s\x1b[0m", user);
+  });
+  io.on("logout", async (arg: any) => {
+    console.log("\x1b[33m%s\x1b[0m", "=== socket logout ===");
+    if (fs.existsSync("./keystore")) {
+      fs.rmSync("./keystore", {
+        recursive: true,
+        force: true,
+      });
+      io.emit(
+        "message",
+        "Logout Berhasil, Silahakan Refresh dan tunggu 15-30 detik untuk dapat melakukan broadcast"
+      );
+    } else {
+      io.emit(
+        "message",
+        'class="text-center text-danger mt-4">Kamu belum melakukan scan, Scan terlebih dahulu!!'
+      );
+    }
+  });
+
   return sock;
 };
 

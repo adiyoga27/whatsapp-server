@@ -100,6 +100,15 @@ io.on("connection", function (socket: any) {
     }
   });
 
+  socket.on("scanqr", async (arg: any) => {
+    console.log("\x1b[33m%s\x1b[0m", "Request QRCODE CLIENT SIDE");
+    const user = await (await whatsappSocket).user;
+    if (user) {
+      io.emit("user", user);
+      console.log("\x1b[33m%s\x1b[0m", user);
+    }
+  });
+
   socket.on("logout", async (arg: any) => {
     console.log("\x1b[33m%s\x1b[0m", "=== socket logout ===");
     if (fs.existsSync("./keystore")) {

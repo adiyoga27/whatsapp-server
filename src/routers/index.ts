@@ -52,6 +52,23 @@ router.post("/send-message", sendMessageSchema, async (req: any, res: any) => {
     });
 });
 
+router.get("/check-connection", async (req: any, res: any) => {
+  // validate input
+  console.log(req);
+  const number = phoneNumberFormatter('085792486889');
+  const [checkWhatsapp] = await (await whatsappSocket).onWhatsApp(number);
+  if (!checkWhatsapp?.exists) {
+    return res.status(400).json({
+      status: false,
+      response: "Nomor ini tidak memiliki whatsapp",
+    });
+  }
+  return res.status(200).json({
+    status: true,
+    response: "Whatsapp Active",
+  });
+});
+
 router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
   // validate input
   console.log(req);
@@ -152,9 +169,10 @@ async function validateNumberWhatsapp(res: any, number: any) {
   console.log(checkWhatsapp);
   if (!checkWhatsapp?.exists) {
     return res.status(400).json({
-      status: 400,
+      status: false,
       response: "Nomor ini tidak memiliki whatsapp",
     });
   }
+  return true;
 }
 export default router;
