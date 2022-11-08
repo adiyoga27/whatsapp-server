@@ -1,5 +1,6 @@
 import { Boom } from "@hapi/boom";
 import { infoLog, emergecyLog } from './telegram'
+import { phoneNumberFormatter } from "../helpers/formatter";
 
 import makeWASocket, {
   AnyMessageContent,
@@ -51,7 +52,7 @@ const startSock = async () => {
   );
   // fetch latest version of WA Web
   const { version, isLatest } = await fetchLatestBaileysVersion();
-  console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
+  // console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
   const sock = makeWASocket({
     version,
@@ -90,13 +91,13 @@ const startSock = async () => {
 
         if (connection === "close") {
           const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
-          console.log("\x1b[33m%s\x1b[0m", 'connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
+          // console.log("\x1b[33m%s\x1b[0m", 'connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
           infoLog(JSON.stringify((lastDisconnect?.error as Boom)?.output));
           // reconnect if not logged out
           if (shouldReconnect) {
             startSock();
           } else {
-            console.log("Connection closed. You are logged out.");
+            // console.log("Connection closed. You are logged out.");
             if ((lastDisconnect?.error as Boom)?.output?.statusCode === DisconnectReason.loggedOut) {
               if (fs.existsSync("./keystore")) {
                 fs.rmSync("./keystore", {
@@ -116,7 +117,7 @@ const startSock = async () => {
         } else if (connection === "open") {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
-          console.log("opened connection");
+          // console.log("opened connection");
 
         }
         if (qr) {
@@ -124,10 +125,14 @@ const startSock = async () => {
           qrcode.toDataURL(qr, (err: any, url: any) => {
             io.emit("message", "QR Code received, scan please!");
             io.emit("qr", url);
-            console.log("\x1b[33m%s\x1b[0m", qr);
+            // console.log("\x1b[33m%s\x1b[0m", qr);
           });
         }
-        console.log("connection update", update);
+        // console.log("connection update", update);
+
+        if (isNewLogin) {
+          pm2.restartApp();
+        }
       }
 
       // credentials updated -- save them
@@ -143,14 +148,26 @@ const startSock = async () => {
     io.emit("message", "Anda Telah Login");
   });
   io.on("check", async (arg: any) => {
+    const number = phoneNumberFormatter('085792486889');
+    await (
+      await whatsappSocket
+    ).sendMessage(number, { text: 'Tester Connection' }).then((response) => {
+      console.log("\x1b[33m%s\x1b[0m", "Berhasil check");
+
+    })
+      .catch((err) => {
+        console.log("\x1b[33m%s\x1b[0m", "Gagal check : " + err);
+
+      });
+
     const user = await (await whatsappSocket).user;
-    console.log("\x1b[33m%s\x1b[0m", "Check Status User");
+    // console.log("\x1b[33m%s\x1b[0m", "Check Status User");
 
     io.emit("user", user);
-    console.log("\x1b[33m%s\x1b[0m", user);
+    // console.log("\x1b[33m%s\x1b[0m", user);
   });
   io.on("logout", async (arg: any) => {
-    console.log("\x1b[33m%s\x1b[0m", "=== socket logout ===");
+    // console.log("\x1b[33m%s\x1b[0m", "=== socket logout ===");
     if (fs.existsSync("./keystore")) {
       fs.rmSync("./keystore", {
         recursive: true,

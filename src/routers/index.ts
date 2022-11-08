@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 });
 router.post("/send-message", sendMessageSchema, async (req: any, res: any) => {
   // validate input
-  console.log(req);
+  // console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -54,7 +54,7 @@ router.post("/send-message", sendMessageSchema, async (req: any, res: any) => {
 
 router.get("/check-connection", async (req: any, res: any) => {
   // validate input
-  console.log(req);
+  // console.log(req);
   const number = phoneNumberFormatter('085792486889');
   const [checkWhatsapp] = await (await whatsappSocket).onWhatsApp(number);
   if (!checkWhatsapp?.exists) {
@@ -71,7 +71,7 @@ router.get("/check-connection", async (req: any, res: any) => {
 
 router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
   // validate input
-  console.log(req);
+  // console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
