@@ -123,7 +123,7 @@ const startSock = async () => {
           //Check QR CODE
           qrcode.toDataURL(qr, (err: any, url: any) => {
             io.emit("message", "QR Code received, scan please!");
-            io.emit("qrcode", url);
+            io.emit("qr", url);
             console.log("\x1b[33m%s\x1b[0m", qr);
           });
         }
