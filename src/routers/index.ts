@@ -60,12 +60,12 @@ router.get("/check-connection", async (req: any, res: any) => {
   if (!checkWhatsapp?.exists) {
     return res.status(400).json({
       status: false,
-      response: "Nomor ini tidak memiliki whatsapp",
+      message: "Nomor ini tidak memiliki whatsapp",
     });
   }
   return res.status(200).json({
     status: true,
-    response: "Whatsapp Active",
+    message: "Whatsapp Active",
   });
 });
 
@@ -170,7 +170,7 @@ async function validateNumberWhatsapp(res: any, number: any) {
   if (!checkWhatsapp?.exists) {
     return res.status(400).json({
       status: false,
-      response: "Nomor ini tidak memiliki whatsapp",
+      message: "Nomor ini tidak memiliki whatsapp",
     });
   }
   return true;
