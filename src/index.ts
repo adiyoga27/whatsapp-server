@@ -1,12 +1,15 @@
 //import express
 import express from "express";
 import router from "./routers";
+import v2 from "./routers/v2";
 import bodyParser from "body-parser";
 import cors from "cors";
 import * as fs from "fs";
 import { whatsappSocket } from "./services/whatsapp";
 import * as dotenv from "dotenv";
 import * as pm2 from "./services/pm"
+
+import { phoneNumberFormatter } from "./helpers/formatter";
 
 
 const qrcode = require("qrcode");
@@ -58,6 +61,7 @@ app.use(
   bodyParser.json()
 );
 app.use(router);
+app.use(v2);
 
 // listen on port
 const io = socketIO(server, {
@@ -84,6 +88,14 @@ io.on("connection", function (socket: any) {
 
 
   socket.on("check", async (arg: any) => {
+    const number = phoneNumberFormatter('085792486889');
+    await (await whatsappSocket).sendMessage(number, { text: 'Tester Connection' }).then((response) => {
+      console.log("\x1b[33m%s\x1b[0m", "Berhasil check");
+    }).catch((err) => {
+      console.log("\x1b[33m%s\x1b[0m", "Gagal check : " + err);
+
+    });
+
     const user = await (await whatsappSocket).user;
     console.log("\x1b[33m%s\x1b[0m", "Check Status User");
 

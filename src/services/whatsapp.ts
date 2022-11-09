@@ -1,6 +1,5 @@
 import { Boom } from "@hapi/boom";
 import { infoLog, emergecyLog } from './telegram'
-import { phoneNumberFormatter } from "../helpers/formatter";
 
 import makeWASocket, {
   AnyMessageContent,
@@ -88,6 +87,7 @@ const startSock = async () => {
       if (events["connection.update"]) {
         const update = events["connection.update"];
         const { connection, lastDisconnect, qr, isNewLogin } = update;
+        console.log("\x1b[33m%s\x1b[0m", "isNewLogin :" + isNewLogin);
 
         if (connection === "close") {
           const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
@@ -117,7 +117,10 @@ const startSock = async () => {
         } else if (connection === "open") {
           io.emit("message", `Berhasil Login dengan user ${user?.name}`);
           io.emit("user", user);
-          // console.log("opened connection");
+          if (isNewLogin) {
+            pm2.restartApp();
+
+          }
 
         }
         if (qr) {
@@ -142,48 +145,8 @@ const startSock = async () => {
     }
   );
 
-  io.on("initial", async () => {
-    const user = await (await whatsappSocket).user;
-    io.emit("user", user);
-    io.emit("message", "Anda Telah Login");
-  });
-  io.on("check", async (arg: any) => {
-    const number = phoneNumberFormatter('085792486889');
-    await (
-      await whatsappSocket
-    ).sendMessage(number, { text: 'Tester Connection' }).then((response) => {
-      console.log("\x1b[33m%s\x1b[0m", "Berhasil check");
 
-    })
-      .catch((err) => {
-        console.log("\x1b[33m%s\x1b[0m", "Gagal check : " + err);
 
-      });
-
-    const user = await (await whatsappSocket).user;
-    // console.log("\x1b[33m%s\x1b[0m", "Check Status User");
-
-    io.emit("user", user);
-    // console.log("\x1b[33m%s\x1b[0m", user);
-  });
-  io.on("logout", async (arg: any) => {
-    // console.log("\x1b[33m%s\x1b[0m", "=== socket logout ===");
-    if (fs.existsSync("./keystore")) {
-      fs.rmSync("./keystore", {
-        recursive: true,
-        force: true,
-      });
-      io.emit(
-        "message",
-        "Logout Berhasil, Silahakan Refresh dan tunggu 15-30 detik untuk dapat melakukan broadcast"
-      );
-    } else {
-      io.emit(
-        "message",
-        'class="text-center text-danger mt-4">Kamu belum melakukan scan, Scan terlebih dahulu!!'
-      );
-    }
-  });
 
   return sock;
 };

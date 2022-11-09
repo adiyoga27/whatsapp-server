@@ -13,6 +13,7 @@ export const sendMessageSchema = checkSchema({
       errorMessage: "Message is required",
     },
   },
+  
 });
 
 export const sendMediaSchema = checkSchema({
@@ -22,12 +23,12 @@ export const sendMediaSchema = checkSchema({
       errorMessage: "Number is required",
     },
   },
-  message: {
-    notEmpty: {
-      bail: true,
-      errorMessage: "Message is required",
-    },
-  },
+  // message: {
+  //   notEmpty: {
+  //     bail: true,
+  //     errorMessage: "Message is required",
+  //   },
+  // },
   filetype: {
     notEmpty: {
       bail: true,
