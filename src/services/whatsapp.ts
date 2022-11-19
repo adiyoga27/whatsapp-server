@@ -38,10 +38,10 @@ const msgRetryCounterMap: MessageRetryMap = {};
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
 const store = useStore ? makeInMemoryStore({ logger }) : undefined;
-store?.readFromFile("./keystore/baileys_store_multi.json");
+// store?.readFromFile("./keystore/baileys_store_multi.json");
 // save every 10s
 setInterval(() => {
-  store?.writeToFile("./keystore/baileys_store_multi.json");
+  // store?.writeToFile("./keystore/baileys_store_multi.json");
 }, 10_000);
 // start a connection
 // start a connection
@@ -105,9 +105,9 @@ const startSock = async () => {
                   force: true,
                 });
               }
-              pm2.restartApp();
+              // pm2.restartApp();
             } else {
-              pm2.restartApp();
+              // pm2.restartApp();
 
             }
 
