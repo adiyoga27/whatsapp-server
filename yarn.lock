@@ -2693,9 +2693,9 @@
   "version" "0.1.0"
 
 "regenerator-runtime@^0.13.10", "regenerator-runtime@^0.13.3":
-  "integrity" "sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw=="
-  "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.10.tgz"
-  "version" "0.13.10"
+  "integrity" "sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg=="
+  "resolved" "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz"
+  "version" "0.13.11"
 
 "require-directory@^2.1.1":
   "integrity" "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q=="
@@ -3021,9 +3021,9 @@
   "version" "1.0.0"
 
 "systeminformation@^5.7":
-  "integrity" "sha512-2z1Ul+PDkO50yGmEGKWOPk3+TeAtTkbn6PmxqzH9D3BAN53QXgbYy6+PPJmBrszXy+X7g8uwZd1WdThKZtICcg=="
-  "resolved" "https://registry.npmjs.org/systeminformation/-/systeminformation-5.12.13.tgz"
-  "version" "5.12.13"
+  "integrity" "sha512-MrIRQCwXYxfwz1hwRMPuBbFKdt794Nz2EtZnaGlImGd6LmKUscDtO8Nztco9yq5qWZPR7pQWJpxqttur86Ge1w=="
+  "resolved" "https://registry.npmjs.org/systeminformation/-/systeminformation-5.13.5.tgz"
+  "version" "5.13.5"
 
 "tar-fs@^2.0.0", "tar-fs@^2.1.1":
   "integrity" "sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng=="
@@ -3143,9 +3143,9 @@
     "mime-types" "~2.1.24"
 
 "typescript@^4.8.3":
-  "integrity" "sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ=="
-  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.8.4.tgz"
-  "version" "4.8.4"
+  "integrity" "sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA=="
+  "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.9.3.tgz"
+  "version" "4.9.3"
 
 "universalify@^0.1.0":
   "integrity" "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="

@@ -92,9 +92,9 @@ const startSock = async () => {
         if (connection === "close") {
           const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut
           // console.log("\x1b[33m%s\x1b[0m", 'connection closed due to ', lastDisconnect?.error, ', reconnecting ', shouldReconnect)
-          infoLog(JSON.stringify((lastDisconnect?.error as Boom)?.output));
           // reconnect if not logged out
           if (shouldReconnect) {
+            infoLog(JSON.stringify((lastDisconnect?.error as Boom)?.output));
             startSock();
           } else {
             // console.log("Connection closed. You are logged out.");
