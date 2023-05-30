@@ -16,6 +16,7 @@
   "author": "Lucakerz",
   "license": "ISC",
   "dependencies": {
+    "@adiwajshing/baileys": "^5.0.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@whiskeysockets/baileys": "^6.1.0",
     "body-parser": "^1.20.0",

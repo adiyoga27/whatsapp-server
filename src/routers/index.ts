@@ -3,6 +3,7 @@ import { body, validationResult } from "express-validator";
 import { whatsappSocket } from "../services/whatsapp";
 import { phoneNumberFormatter } from "../helpers/formatter";
 import mime from "mime-types";
+import url from "url";
 import {
   sendMediaSchema,
   sendMessageSchema,
@@ -85,7 +86,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
   const number = phoneNumberFormatter(req.body.number);
   const message = req.body.message;
   const filetype = req.body.filetype;
-  const url = req.body.url;
+  const urlFile = req.body.url;
 
   validateNumberWhatsapp(res, number);
   let payloadMessage = {};
@@ -95,7 +96,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
     )
       .sendMessage(number, {
         caption: message,
-        image: { url: url },
+        image: { url: urlFile },
       })
       .then((response) => {
         return res.status(200).json({
@@ -117,7 +118,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
     )
       .sendMessage(number, {
         caption: message,
-        video: { url: url },
+        video: { url: urlFile },
         gifPlayback: true,
       })
       .then((response) => {
@@ -140,7 +141,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
     )
       .sendMessage(number, {
         caption: message,
-        audio: { url: url },
+        audio: { url: urlFile },
         mimetype: "audio/mp4",
       })
       .then((response) => {
@@ -158,7 +159,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
         });
       });
   } else if (filetype == "file") {
-    const parsedUrl = url;
+    const parsedUrl = url.parse(urlFile);
     const fileNameWithMime = parsedUrl.pathname?.split("/").pop();
     const fileName = fileNameWithMime?.split(".").shift();
     const mimeType = mime.lookup(fileName!) as string;
@@ -169,7 +170,7 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
       .sendMessage(number, {
         caption: message,
         document: {
-          url: url,
+          url: urlFile,
         },
         mimetype: mimeType,
         fileName: fileName,
