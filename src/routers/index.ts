@@ -2,6 +2,7 @@ import { response, Router } from "express";
 import { body, validationResult } from "express-validator";
 import { whatsappSocket } from "../services/whatsapp";
 import { phoneNumberFormatter } from "../helpers/formatter";
+import mime from "mime-types";
 import {
   sendMediaSchema,
   sendMessageSchema,
@@ -141,6 +142,37 @@ router.post("/send-media", sendMediaSchema, async (req: any, res: any) => {
         caption: message,
         audio: { url: url },
         mimetype: "audio/mp4",
+      })
+      .then((response) => {
+        return res.status(200).json({
+          status: true,
+          message: "Berhasil Mengirim Pesan",
+          response: response,
+        });
+      })
+      .catch((err) => {
+        return res.json({
+          status: false,
+          message: "Check Whatsapp Anda",
+          response: err,
+        });
+      });
+  } else if (filetype == "file") {
+    const parsedUrl = url;
+    const fileNameWithMime = parsedUrl.pathname?.split("/").pop();
+    const fileName = fileNameWithMime?.split(".").shift();
+    const mimeType = mime.lookup(fileName!) as string;
+
+    await (
+      await whatsappSocket
+    )
+      .sendMessage(number, {
+        caption: message,
+        document: {
+          url: url,
+        },
+        mimetype: mimeType,
+        fileName: fileName,
       })
       .then((response) => {
         return res.status(200).json({

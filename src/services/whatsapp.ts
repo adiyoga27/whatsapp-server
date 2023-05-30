@@ -8,9 +8,9 @@ import makeWASocket, {
   fetchLatestBaileysVersion,
   // makeCacheableSignalKeyStore,
   makeInMemoryStore,
-  MessageRetryMap,
+  // MessageRetryMap,
   useMultiFileAuthState,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import MAIN_LOGGER from "../utils/logger";
 import { io } from "../index";
 import * as pm2 from "./pm";
@@ -33,7 +33,7 @@ const doReplies = !process.argv.includes("--no-reply");
 
 // external map to store retry counts of messages when decryption/encryption fails
 // keep this out of the socket itself, so as to prevent a message decryption/encryption loop across socket restarts
-const msgRetryCounterMap: MessageRetryMap = {};
+// const msgRetryCounterMap: MessageRetryMap = {};
 
 // the store maintains the data of the WA connection in memory
 // can be written out to a file & read from it
@@ -58,12 +58,12 @@ const startSock = async () => {
     logger,
     printQRInTerminal: true,
     auth: state,
-    msgRetryCounterMap,
+    // msgRetryCounterMap,
     // generateHighQualityLinkPreview: true,
     // implement to handle retries
     getMessage: async (key) => {
       if (store) {
-        const msg = await store.loadMessage(key.remoteJid!, key.id!, undefined);
+        const msg = await store.loadMessage(key.remoteJid!, key.id!);
         return msg?.message || undefined;
       }
 
