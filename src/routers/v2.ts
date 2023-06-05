@@ -102,11 +102,7 @@ router.post("/v2/send-media", sendMediaSchema, async (req: any, res: any) => {
     filetype == "jpeg"
   ) {
 
-    return res.status(200).json({
-      status: true,
-      message: "Berhasil Mengirim Pesan",
-      response: filetype,
-    });
+   
     await (
       await whatsappSocket
     )
