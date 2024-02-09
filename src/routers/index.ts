@@ -203,7 +203,7 @@ async function validateNumberWhatsapp(res: any, number: any) {
   if (!checkWhatsapp?.exists) {
     return res.status(400).json({
       status: false,
-      message: "Nomor ini tidak memiliki whatsapp",
+      message: number + "Nomor ini tidak memiliki whatsapp ",
     });
   }
   return true;
